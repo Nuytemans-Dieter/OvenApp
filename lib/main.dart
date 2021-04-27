@@ -49,12 +49,14 @@ class _MyHomePageState extends State<MyHomePage> {
             StreamBuilder<OvenInfo>(
               stream: widget.ovenInfoProvider.getStream(),
               builder: (context, snapshot) {
-                return Text(
-                  snapshot.data.temperature.toString(),
-                  style: TextStyle(
-                    fontSize: 35,
-                  ),
-                );
+                return snapshot.hasData
+                    ? Text(
+                        snapshot.data.temperature.toString(),
+                        style: TextStyle(
+                          fontSize: 35,
+                        ),
+                      )
+                    : Text("??");
               },
             ),
           ],

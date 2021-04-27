@@ -16,16 +16,13 @@ class LinearInfoProvider extends OvenInfoProvider {
     Stream<OvenInfo> stream =
         Stream<OvenInfo>.periodic(Duration(milliseconds: 750), (val) {
       double delta = _random.nextDouble() * 20;
-      print(temperature);
       double actualTemperature =
           isRising ? temperature + delta : temperature - delta;
       temperature = actualTemperature - actualTemperature % 0.25;
 
       if (temperature <= 0) {
-        print("Going up!");
         isRising = true;
       } else if (temperature >= 700) {
-        print("Going down!");
         isRising = false;
       }
 
