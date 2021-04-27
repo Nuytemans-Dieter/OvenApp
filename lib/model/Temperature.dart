@@ -39,6 +39,6 @@ class Temperature {
   }
 
   String toUnitString(TemperatureUnit unit) {
-    return getTemperature(unit).toString() + " " + unit.getSymbol();
+    return getTemperature(unit).toStringAsFixed(2) + " " + unit.getSymbol();
   }
 }

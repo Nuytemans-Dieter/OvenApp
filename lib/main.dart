@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oven_app/model/OvenInfo.dart';
 import 'package:oven_app/model/interfaces/OvenInfoProvider.dart';
 import 'package:oven_app/model/oven_info_providers/RandomInfoProvider.dart';
+import 'package:oven_app/widgets/TemperatureGauge.dart';
 
 import 'model/oven_info_providers/LinearInfoProvider.dart';
 
@@ -46,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
+            Gauge(),
             StreamBuilder<OvenInfo>(
               stream: widget.ovenInfoProvider.getStream(),
               builder: (context, snapshot) {
