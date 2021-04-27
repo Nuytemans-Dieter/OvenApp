@@ -32,4 +32,13 @@ class Temperature {
 
     return temperature;
   }
+
+  @override
+  String toString() {
+    return toUnitString(TemperatureUnit.CELCIUS);
+  }
+
+  String toUnitString(TemperatureUnit unit) {
+    return getTemperature(unit).toString() + " " + unit.getSymbol();
+  }
 }

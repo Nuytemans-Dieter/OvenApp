@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:oven_app/model/OvenInfo.dart';
+import 'package:oven_app/model/interfaces/OvenInfoProvider.dart';
+import 'package:oven_app/model/oven_info_providers/RandomInfoProvider.dart';
+
+import 'model/oven_info_providers/LinearInfoProvider.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +23,11 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  final OvenInfoProvider ovenInfoProvider;
+
+  MyHomePage({Key key, this.title})
+      : ovenInfoProvider = new LinearInfoProvider(),
+        super(key: key);
 
   final String title;
 
@@ -27,8 +36,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double temperature;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +44,18 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            StreamBuilder<OvenInfo>(
+              stream: widget.ovenInfoProvider.getStream(),
+              builder: (context, snapshot) {
+                return Text(
+                  snapshot.data.temperature.toString(),
+                  style: TextStyle(
+                    fontSize: 35,
+                  ),
+                );
+              },
             ),
           ],
         ),
