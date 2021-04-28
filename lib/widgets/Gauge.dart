@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:oven_app/widgets/Arc.dart';
 
 class Gauge extends StatefulWidget {
@@ -13,17 +14,20 @@ class Gauge extends StatefulWidget {
   final Color rightColor;
   final Color backgroundColor;
 
-  Gauge({
-    this.width = 300,
-    this.min = 0,
-    this.max = 900,
-    this.defaultValue = 20,
-    this.leftColor = Colors.blue,
-    this.rightColor = Colors.red,
-    this.backgroundColor = Colors.white});
+  Gauge(
+      {Key? key,
+      this.width = 300,
+      this.min = 0,
+      this.max = 900,
+      this.defaultValue = 20,
+      this.leftColor = Colors.blue,
+      this.rightColor = Colors.red,
+      this.backgroundColor = Colors.white})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
+    print(defaultValue);
     return GaugeState(defaultValue);
   }
 }
@@ -38,6 +42,7 @@ class GaugeState extends State<Gauge> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 30.0),
       child: Arc(
+        value: ((value - widget.min) / (widget.max - widget.min)),
         leftColor: widget.leftColor,
         rightColor: widget.rightColor,
         backgroundColor: widget.backgroundColor,

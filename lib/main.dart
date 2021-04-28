@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:oven_app/model/OvenInfo.dart';
 import 'package:oven_app/model/interfaces/OvenInfoProvider.dart';
-import 'package:oven_app/widgets/Arc.dart';
 import 'package:oven_app/widgets/Gauge.dart';
 
 import 'model/oven_info_providers/BluetoothInfoProvider.dart';
@@ -45,6 +44,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   OvenInfoProvider _provider;
+  GlobalKey<GaugeState> gaugeKey = GlobalKey();
 
   static const double gaugeWidth = 350;
 
@@ -57,31 +57,40 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only( top: 50 ),
-          child: Stack(
-            alignment: Alignment.topCenter,
-            children: [
-              Gauge(width: gaugeWidth,),
-              Padding(
-                padding: const EdgeInsets.only(top: gaugeWidth / 4),
-                child: FutureBuilder<Stream<OvenInfo>>(
-                  future: _provider.getStream(),
-                  builder: (context, snapshot) => StreamBuilder<OvenInfo>(
-                    stream: snapshot.data,
-                    builder: (context, snapshot) {
-                      return snapshot.hasData && snapshot.data != null
-                          ? Text(
-                              snapshot.data!.temperature.toString(),
-                              style: TextStyle(
-                                fontSize: 35,
-                              ),
-                            )
-                          : Text("??");
-                    },
-                  ),
-                ),
-              ),
-            ],
+          padding: const EdgeInsets.only(top: 50),
+          child: FutureBuilder<Stream<OvenInfo>>(
+            future: _provider.getStream(),
+            builder: (context, snapshot) => StreamBuilder<OvenInfo>(
+              stream: snapshot.data,
+              builder: (context, snapshot) {
+                if (snapshot.hasData && snapshot.data != null) {
+                  OvenInfo ovenInfo = snapshot.data!;
+                  gaugeKey.currentState?.value =
+                      ovenInfo.temperature.getCelcius();
+                  return Stack(
+                    alignment: Alignment.topCenter,
+                    children: [
+                      Gauge(
+                        key: gaugeKey,
+                        defaultValue: ovenInfo.temperature.getCelcius(),
+                        width: gaugeWidth,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: gaugeWidth / 4),
+                        child: Text(
+                          ovenInfo.temperature.toString(),
+                          style: TextStyle(
+                            fontSize: 35,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
           ),
         ),
       ),
