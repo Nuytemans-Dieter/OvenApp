@@ -61,7 +61,7 @@ class ArcPainter extends CustomPainter {
     canvas.drawArc(
       Rect.fromCenter(
         center: centerOffset,
-        height: 2 * size.height,
+        height: size.width,
         width: size.width,
       ),
       math.pi,
@@ -77,7 +77,7 @@ class ArcPainter extends CustomPainter {
     canvas.drawArc(
       Rect.fromCenter(
         center: Offset(centerOffset.dx, centerOffset.dy + 1),
-        height: (2 * size.height) - 2 * border - 1,
+        height: size.width - 2 * border - 1,
         width: size.width - 2 * border,
       ),
       math.pi,
