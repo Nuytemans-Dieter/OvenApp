@@ -76,8 +76,8 @@ class ArcPainter extends CustomPainter {
     eraser.color = backgroundColor;
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset(centerOffset.dx, centerOffset.dy + 1),
-        height: size.width - 2 * border - 1,
+        center: Offset(centerOffset.dx, centerOffset.dy),
+        height: size.width - 2 * border,
         width: size.width - 2 * border,
       ),
       math.pi,
