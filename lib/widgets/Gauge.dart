@@ -27,7 +27,6 @@ class Gauge extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    print(defaultValue);
     return GaugeState(defaultValue);
   }
 }

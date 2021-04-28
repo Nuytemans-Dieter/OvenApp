@@ -58,39 +58,63 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 50),
-          child: FutureBuilder<Stream<OvenInfo>>(
-            future: _provider.getStream(),
-            builder: (context, snapshot) => StreamBuilder<OvenInfo>(
-              stream: snapshot.data,
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
-                  OvenInfo ovenInfo = snapshot.data!;
-                  gaugeKey.currentState?.value =
-                      ovenInfo.temperature.getCelcius();
-                  return Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Gauge(
-                        key: gaugeKey,
-                        defaultValue: ovenInfo.temperature.getCelcius(),
-                        width: gaugeWidth,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: gaugeWidth / 4),
-                        child: Text(
-                          ovenInfo.temperature.toString(),
-                          style: TextStyle(
-                            fontSize: 35,
+          child: Column(
+            children: [
+              FutureBuilder<Stream<OvenInfo>>(
+                future: _provider.getStream(),
+                builder: (context, snapshot) => StreamBuilder<OvenInfo>(
+                  stream: snapshot.data,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData && snapshot.data != null) {
+                      OvenInfo ovenInfo = snapshot.data!;
+                      gaugeKey.currentState?.value =
+                          ovenInfo.temperature.getCelcius();
+                      return Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Gauge(
+                            key: gaugeKey,
+                            defaultValue: ovenInfo.temperature.getCelcius(),
+                            width: gaugeWidth,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: gaugeWidth / 3),
+                            child: Text(
+                              ovenInfo.temperature.toString(),
+                              style: TextStyle(
+                                fontSize: 35,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Container();
+                    }
+                  },
+                ),
+              ),
+              SizedBox(height: 25,),
+              Expanded(
+                child: ListView(
+                  children: [
+                    // Timer widgets can come here -> Placeholder container
+                    Container(
+                      height: 2000,
+                      width: 100,
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: <Color>[Colors.blue, Colors.red],
+                          tileMode: TileMode.decal,
                         ),
                       ),
-                    ],
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
