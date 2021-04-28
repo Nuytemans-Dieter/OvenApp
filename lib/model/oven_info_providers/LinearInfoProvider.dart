@@ -28,7 +28,7 @@ class LinearInfoProvider extends OvenInfoProvider {
       }
 
       return new OvenInfo(_ovenName, new Temperature(temperature));
-    });
+    }).asBroadcastStream();
     this.isReady = true;
   }
 

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:oven_app/model/OvenInfo.dart';
 import 'package:oven_app/model/interfaces/OvenInfoProvider.dart';
-import 'package:oven_app/widgets/TemperatureGauge.dart';
+import 'package:oven_app/widgets/Arc.dart';
+import 'package:oven_app/widgets/Gauge.dart';
 
 import 'model/oven_info_providers/BluetoothInfoProvider.dart';
 import 'model/oven_info_providers/LinearInfoProvider.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pizza Oven',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.amber,
       ),
       home: MyHomePage(title: 'Pizza Oven'),
     );
@@ -32,7 +33,8 @@ class MyHomePage extends StatefulWidget {
   final OvenInfoProvider ovenInfoProvider;
 
   MyHomePage({Key? key, this.title = ""})
-      : ovenInfoProvider = BluetoothInfoProvider("00:13:EF:02:1C:E2", bufferLength: 150),
+      : ovenInfoProvider =
+            LinearInfoProvider() /*BluetoothInfoProvider("00:13:EF:02:1C:E2", bufferLength: 150)*/,
         super(key: key);
 
   final String title;
@@ -51,31 +53,31 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Gauge(),
-            FutureBuilder<Stream<OvenInfo>>(
-              future: _provider.getStream(),
-              builder: (context, snapshot) => StreamBuilder<OvenInfo>(
-                stream: snapshot.data,
-                builder: (context, snapshot) {
-                  return snapshot.hasData && snapshot.data != null
-                      ? Text(
-                          snapshot.data!.temperature.toString(),
-                          style: TextStyle(
-                            fontSize: 35,
-                          ),
-                        )
-                      : Text("??");
-                },
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Arc(),
+              Gauge(),
+              FutureBuilder<Stream<OvenInfo>>(
+                future: _provider.getStream(),
+                builder: (context, snapshot) => StreamBuilder<OvenInfo>(
+                  stream: snapshot.data,
+                  builder: (context, snapshot) {
+                    return snapshot.hasData && snapshot.data != null
+                        ? Text(
+                            snapshot.data!.temperature.toString(),
+                            style: TextStyle(
+                              fontSize: 35,
+                            ),
+                          )
+                        : Text("??");
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
