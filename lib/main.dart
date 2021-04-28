@@ -32,7 +32,7 @@ class MyHomePage extends StatefulWidget {
   final OvenInfoProvider ovenInfoProvider;
 
   MyHomePage({Key? key, this.title = ""})
-      : ovenInfoProvider = BluetoothInfoProvider("00:13:EF:02:1C:E2"),
+      : ovenInfoProvider = BluetoothInfoProvider("00:13:EF:02:1C:E2", bufferLength: 150),
         super(key: key);
 
   final String title;
