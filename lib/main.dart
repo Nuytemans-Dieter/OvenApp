@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart' as Foundation;
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:oven_app/model/OvenInfo.dart';
@@ -33,11 +32,7 @@ class MyHomePage extends StatefulWidget {
   final OvenInfoProvider ovenInfoProvider;
 
   MyHomePage({Key? key, this.title = ""})
-      : ovenInfoProvider = Foundation
-                .kReleaseMode // Always use Bluetooth in release mode, if statement will be removed by compiler (kReleaseMode is a constant)
-            ? BluetoothInfoProvider()
-            : LinearInfoProvider(),
-        //: LinearInfoProvider(),
+      : ovenInfoProvider = BluetoothInfoProvider("00:13:EF:02:1C:E2"),
         super(key: key);
 
   final String title;
