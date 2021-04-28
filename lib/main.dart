@@ -113,8 +113,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Dismissible(
                       key: UniqueKey(),
                       onDismissed: (DismissDirection direction) {
-                        
                         setState(() {
+                          _timerCards[index].timerHelper.stop();
                           _timerCards.removeAt(index);
                         });
                       },
