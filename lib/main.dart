@@ -50,7 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static const double gaugeWidth = 350;
 
-  _MyHomePageState(this._provider) {
+  int pizzaIndex = 1;
+  final List<TimerCard> _timerCards;
+
+  _MyHomePageState(this._provider) : _timerCards = [] {
     _provider.connect();
   }
 
@@ -98,15 +101,28 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                 ),
               ),
-              SizedBox(height: 25,),
+              SizedBox(
+                height: 25,
+              ),
               Expanded(
-                child: ListView(
-                  children: [
-                    // Timer widgets can come here -> Placeholder container
-                    TimerCard(
-                      title: "Pizza #1",
-                    )
-                  ],
+                child: ListView.separated(
+                  itemCount: _timerCards.length,
+                  padding: const EdgeInsets.all(5.0),
+                  separatorBuilder: (context, index) => SizedBox(),
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (DismissDirection direction) {
+                        
+                        setState(() {
+                          _timerCards.removeAt(index);
+                        });
+                      },
+                      child: ListTile(
+                        title: _timerCards[index],
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -114,7 +130,14 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          pizzaIndex++;
+          setState(() {
+            _timerCards.add(TimerCard(
+              title: "Pizza $pizzaIndex",
+            ));
+          });
+        },
         tooltip: 'Add pizza',
         child: Icon(Icons.add),
       ),
