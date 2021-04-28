@@ -8,13 +8,14 @@ class LinearInfoProvider extends OvenInfoProvider {
   final String _ovenName = "Pizza oven";
   final Random _random = new Random();
 
+  late Stream<OvenInfo> _stream;
+  bool isReady = false;
+
   bool isRising = true;
   double temperature = 20;
 
-  @override
-  Stream<OvenInfo> getStream() {
-    Stream<OvenInfo> stream =
-        Stream<OvenInfo>.periodic(Duration(milliseconds: 750), (val) {
+  LinearInfoProvider() {
+    _stream = Stream<OvenInfo>.periodic(Duration(milliseconds: 750), (val) {
       double delta = _random.nextDouble() * 20;
       double actualTemperature =
           isRising ? temperature + delta : temperature - delta;
@@ -28,6 +29,25 @@ class LinearInfoProvider extends OvenInfoProvider {
 
       return new OvenInfo(_ovenName, new Temperature(temperature));
     });
-    return stream;
+    this.isReady = true;
+  }
+
+  @override
+  Future<Stream<OvenInfo>> getStream() async {
+    return _stream;
+  }
+
+  @override
+  Future<void> connect() async {}
+
+  @override
+  Future<void> disconnect() async {
+    await _stream.listen((event) {}).cancel();
+    this.isReady = false;
+  }
+
+  @override
+  bool isConnected() {
+    return this.isReady;
   }
 }

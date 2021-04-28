@@ -1,5 +1,8 @@
 import '../OvenInfo.dart';
 
 abstract class OvenInfoProvider {
-  Stream<OvenInfo> getStream();
+  Future<void> connect();
+  Future<void> disconnect();
+  bool isConnected();
+  Future<Stream<OvenInfo>> getStream();
 }

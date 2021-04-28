@@ -16,12 +16,14 @@ class Gauge extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return GaugeState();
+    return GaugeState(20.0);
   }
 }
 
 class GaugeState extends State<Gauge> {
   double value;
+
+  GaugeState(this.value);
 
   @override
   Widget build(BuildContext context) {
