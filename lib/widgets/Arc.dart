@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 class Arc extends StatelessWidget {
   final double diameter;
@@ -35,7 +36,11 @@ class ArcPainter extends CustomPainter {
 
     // Draw semi-circle
 
-    Paint paint = Paint()..color = Colors.blue;
+    Paint paint = Paint()..shader = ui.Gradient.linear(
+      Offset(centerOffset.dx - size.width / 2, 0),
+      Offset(centerOffset.dx + size.width / 2, 0),
+      [Colors.blue, Colors.red], 
+    );
     canvas.drawArc(
       Rect.fromCenter(
         center: centerOffset,
@@ -49,11 +54,12 @@ class ArcPainter extends CustomPainter {
     );
 
     // Cut out part of semi-circle
+
     Paint eraser = Paint();
     eraser.color = backgroundColor;
     canvas.drawArc(
       Rect.fromCenter(
-        center: Offset( centerOffset.dx, centerOffset.dy + 1 ),
+        center: Offset(centerOffset.dx, centerOffset.dy + 1),
         height: (2 * size.height) - border - 1,
         width: size.width - border,
       ),
