@@ -6,11 +6,15 @@ class Arc extends StatelessWidget {
   final double diameter;
   final double border;
   final Color backgroundColor;
+  final Color leftColor;
+  final Color rightColor;
 
   const Arc(
       {Key? key,
       this.diameter = 300,
       this.border = 50.0,
+      this.leftColor = Colors.blue,
+      this.rightColor = Colors.red,
       this.backgroundColor = Colors.white})
       : super(key: key);
 
@@ -36,11 +40,12 @@ class ArcPainter extends CustomPainter {
 
     // Draw semi-circle
 
-    Paint paint = Paint()..shader = ui.Gradient.linear(
-      Offset(centerOffset.dx - size.width / 2, 0),
-      Offset(centerOffset.dx + size.width / 2, 0),
-      [Colors.blue, Colors.red], 
-    );
+    Paint paint = Paint()
+      ..shader = ui.Gradient.linear(
+        Offset(centerOffset.dx + 20 - size.width / 2, 0),
+        Offset(centerOffset.dx - 20 + size.width / 2, 0),
+        [Colors.blue, Colors.red],
+      );
     canvas.drawArc(
       Rect.fromCenter(
         center: centerOffset,

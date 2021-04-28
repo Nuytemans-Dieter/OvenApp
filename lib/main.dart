@@ -46,6 +46,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   OvenInfoProvider _provider;
 
+  static const double gaugeWidth = 350;
+
   _MyHomePageState(this._provider) {
     _provider.connect();
   }
@@ -54,26 +56,29 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Arc(),
-              Gauge(),
-              FutureBuilder<Stream<OvenInfo>>(
-                future: _provider.getStream(),
-                builder: (context, snapshot) => StreamBuilder<OvenInfo>(
-                  stream: snapshot.data,
-                  builder: (context, snapshot) {
-                    return snapshot.hasData && snapshot.data != null
-                        ? Text(
-                            snapshot.data!.temperature.toString(),
-                            style: TextStyle(
-                              fontSize: 35,
-                            ),
-                          )
-                        : Text("??");
-                  },
+        child: Padding(
+          padding: const EdgeInsets.only( top: 50 ),
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [
+              Gauge(width: gaugeWidth,),
+              Padding(
+                padding: const EdgeInsets.only(top: gaugeWidth / 4),
+                child: FutureBuilder<Stream<OvenInfo>>(
+                  future: _provider.getStream(),
+                  builder: (context, snapshot) => StreamBuilder<OvenInfo>(
+                    stream: snapshot.data,
+                    builder: (context, snapshot) {
+                      return snapshot.hasData && snapshot.data != null
+                          ? Text(
+                              snapshot.data!.temperature.toString(),
+                              style: TextStyle(
+                                fontSize: 35,
+                              ),
+                            )
+                          : Text("??");
+                    },
+                  ),
                 ),
               ),
             ],
