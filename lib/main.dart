@@ -3,7 +3,9 @@ import 'package:logging/logging.dart';
 import 'package:oven_app/model/OvenInfo.dart';
 import 'package:oven_app/model/interfaces/OvenInfoProvider.dart';
 import 'package:oven_app/widgets/Gauge.dart';
+import 'package:oven_app/widgets/TimerCard.dart';
 
+import 'model/constants.dart';
 import 'model/oven_info_providers/BluetoothInfoProvider.dart';
 import 'model/oven_info_providers/LinearInfoProvider.dart';
 
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Pizza Oven',
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Constants.accentColor,
       ),
       home: MyHomePage(title: 'Pizza Oven'),
     );
@@ -55,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Constants.backgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 50),
@@ -75,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Gauge(
                             key: gaugeKey,
                             defaultValue: ovenInfo.temperature.getCelcius(),
+                            backgroundColor: Constants.backgroundColor,
                             width: gaugeWidth,
                           ),
                           Padding(
@@ -99,18 +103,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ListView(
                   children: [
                     // Timer widgets can come here -> Placeholder container
-                    Container(
-                      height: 2000,
-                      width: 100,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: <Color>[Colors.blue, Colors.red],
-                          tileMode: TileMode.decal,
-                        ),
-                      ),
-                    ),
+                    TimerCard(
+                      title: "Pizza #1",
+                    )
                   ],
                 ),
               ),

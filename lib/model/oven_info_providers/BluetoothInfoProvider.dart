@@ -25,7 +25,7 @@ class BluetoothInfoProvider extends OvenInfoProvider {
   final AsciiCodec ascii = AsciiCodec();
 
   BluetoothInfoProvider(this._address, {this.bufferLength = 500}) {
-    _stream = Stream<OvenInfo>.periodic(Duration(milliseconds: 250), (val) {
+    _stream = Stream<OvenInfo>.periodic(Duration(milliseconds: 200), (val) {
       return _newestInfo ?? OvenInfo("name", Temperature(20.0));
     }).asBroadcastStream();
   }
