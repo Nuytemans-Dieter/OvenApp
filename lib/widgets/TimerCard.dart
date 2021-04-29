@@ -46,6 +46,7 @@ class TimerCardState extends State<TimerCard> {
               titleInputHint: '(optional) change item name',
               okText: 'Ok',
               description: 'Change the appearance of this item',
+              currentIcon: widget.pizzaInfo.icon,
               onSubmit: (newName, newIcon) {
                 setState(() {
                   if (newName != '') widget.pizzaInfo.title = newName;

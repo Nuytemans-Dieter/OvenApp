@@ -12,12 +12,14 @@ class PizzaSettingsPopup extends StatefulWidget {
   final String okText;
   final String cancelText;
 
+  final IconData currentIcon;
+
   final Map<IconData, String> icons = {
-        Icons.local_pizza_rounded     : "Pizza",
-        Icons.cake_rounded            : "Cake",
-        Icons.takeout_dining          : "Boiled food",
-        Icons.free_breakfast_rounded  : "Hot beverage",
-        Icons.restaurant_rounded      : "Other food",
+    Icons.local_pizza_rounded: "Pizza",
+    Icons.cake_rounded: "Cake",
+    Icons.takeout_dining: "Boiled food",
+    Icons.free_breakfast_rounded: "Hot beverage",
+    Icons.restaurant_rounded: "Other food",
   };
 
   final Function(String input, IconData icon) onSubmit;
@@ -28,13 +30,14 @@ class PizzaSettingsPopup extends StatefulWidget {
       this.titleInputHint = "(optional) change item name",
       this.okText = "Submit",
       this.cancelText = "Cancel",
+      this.currentIcon = Icons.local_pizza_rounded,
       this.onSubmit = _emptyFunction});
 
   static _emptyFunction(String input, IconData icon) {}
 
   @override
   State<StatefulWidget> createState() {
-    return PizzaSettingsPopupState(icons.keys.first);
+    return PizzaSettingsPopupState(icons.containsKey( currentIcon ) ? currentIcon : icons.keys.first);
   }
 }
 
@@ -81,7 +84,9 @@ class PizzaSettingsPopupState extends State<PizzaSettingsPopup> {
                           entry.key,
                           color: Constants.accentColor,
                         ),
-                        SizedBox( width: 20, ),
+                        SizedBox(
+                          width: 20,
+                        ),
                         Text(entry.value),
                       ],
                     ),
