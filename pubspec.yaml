@@ -23,9 +23,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_blue: ^0.8.0  # Used for Bluetooth connectivity
   flutter_bluetooth_serial: ^0.2.2  # Used for receiving bluetooth data from a HC-06 
   logging: ^1.0.1                   # Used for logging messages with variable severity
+  fl_chart: ^0.35.0                 # Allows easy chart creation
 
 
   # The following adds the Cupertino Icons font to your application.
