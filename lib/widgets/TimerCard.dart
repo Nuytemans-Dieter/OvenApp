@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:oven_app/model/TimerHelper.dart';
 import 'package:oven_app/model/constants.dart';
-import 'package:oven_app/widgets/popups/TextInputPopup.dart';
+import 'package:oven_app/widgets/popups/PizzaSettingsPopup.dart';
 
 class TimerCard extends StatefulWidget {
   final TimerHelper timerHelper = TimerHelper();
@@ -22,6 +22,7 @@ class TimerCard extends StatefulWidget {
 class TimerCardState extends State<TimerCard> {
   TimerHelper timerHelper;
   String? overwriteTitle;
+  IconData icon = Icons.local_pizza_rounded;
 
   TimerCardState(this.timerHelper) {
     timerHelper.onCount = () {
@@ -36,15 +37,17 @@ class TimerCardState extends State<TimerCard> {
         onTap: () {
           showDialog(
             context: context,
-            builder: (BuildContext context) => TextInputPopup(
-              title: "Change name",
+            builder: (BuildContext context) => PizzaSettingsPopup(
+              title: "Change info card",
               cancelText: "Cancel",
+              titleInputHint: "(optional) change item name",
               okText: "Ok",
-              description: "Change the name of this item",
-              onSubmit: (newName) {
-                if (newName != "")
+              description: "Change appearance of this item",
+              onSubmit: (newName, newIcon) {
                   setState(() {
-                    overwriteTitle = newName;
+                    if (newName != "")
+                      overwriteTitle = newName;
+                    icon = newIcon;
                   });
               },
             ),
@@ -57,7 +60,7 @@ class TimerCardState extends State<TimerCard> {
           child: Row(
             children: [
               Icon(
-                Icons.local_pizza,
+                icon,
                 size: 50.0,
                 color: Constants.accentColor,
               ),
