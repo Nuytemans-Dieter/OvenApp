@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:oven_app/model/PizzaInfo.dart';
+import 'package:oven_app/model/TimerHelper.dart';
 import 'package:oven_app/model/constants.dart';
 import 'package:oven_app/widgets/popups/PizzaSettingsPopup.dart';
 
@@ -9,10 +10,11 @@ class TimerCard extends StatefulWidget {
   final Logger logger = Logger("TimerCard");
 
   final Color color;
-
+  final TimerHelper timerHelper = TimerHelper();
   final PizzaInfo pizzaInfo;
 
-  TimerCard({String title = "", this.color = Colors.grey}) : pizzaInfo = PizzaInfo(title, Icons.local_pizza_rounded);
+  TimerCard({String title = "", this.color = Colors.grey})
+      : pizzaInfo = PizzaInfo(title, Icons.local_pizza_rounded);
 
   @override
   State<StatefulWidget> createState() {
@@ -22,8 +24,11 @@ class TimerCard extends StatefulWidget {
 
 class TimerCardState extends State<TimerCard> {
 
-  TimerCardState() {
-    widget.pizzaInfo.timerHelper.onCount = () {
+  @override
+  void initState() {
+    super.initState();
+    widget.logger.fine("Initialising TimerCard named ${widget.pizzaInfo.title}");
+    widget.timerHelper.onCount = () {
       setState(() {});
     };
   }
@@ -72,7 +77,7 @@ class TimerCardState extends State<TimerCard> {
                     style: Constants.textStyle,
                   ),
                   Text(
-                    widget.pizzaInfo.timerHelper.getPrettyTime(),
+                    widget.timerHelper.getPrettyTime(),
                     style: Constants.textStyle,
                   )
                 ],

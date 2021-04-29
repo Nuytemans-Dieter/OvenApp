@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       key: UniqueKey(),
                       onDismissed: (DismissDirection direction) {
                         setState(() {
-                          _timerCards[index].pizzaInfo.timerHelper.stop();
+                          _timerCards[index].timerHelper.stop();
                           _timerCards.removeAt(index);
                         });
                       },
