@@ -114,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       key: UniqueKey(),
                       onDismissed: (DismissDirection direction) {
                         setState(() {
-                          _timerCards[index].timerHelper.stop();
+                          _timerCards[index].pizzaInfo.timerHelper.stop();
                           _timerCards.removeAt(index);
                         });
                       },
@@ -131,12 +131,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          pizzaIndex++;
           setState(() {
-            _timerCards.add(TimerCard(
-              title: "Pizza $pizzaIndex",
-            ));
+            _timerCards.add(
+              TimerCard(
+                title: "Pizza $pizzaIndex",
+              )
+            );
           });
+          pizzaIndex++;
         },
         tooltip: 'Add pizza',
         child: Icon(Icons.add),

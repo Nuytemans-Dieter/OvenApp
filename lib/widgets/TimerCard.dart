@@ -1,31 +1,29 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:oven_app/model/TimerHelper.dart';
+import 'package:logging/logging.dart';
+import 'package:oven_app/model/PizzaInfo.dart';
 import 'package:oven_app/model/constants.dart';
 import 'package:oven_app/widgets/popups/PizzaSettingsPopup.dart';
 
 class TimerCard extends StatefulWidget {
-  final TimerHelper timerHelper = TimerHelper();
-  final String title;
+  final Logger logger = Logger("TimerCard");
+
   final Color color;
 
-  TimerCard({this.title = "", this.color = Colors.grey});
+  final PizzaInfo pizzaInfo;
+
+  TimerCard({String title = "", this.color = Colors.grey}) : pizzaInfo = PizzaInfo(title, Icons.local_pizza_rounded);
 
   @override
   State<StatefulWidget> createState() {
-    return TimerCardState(timerHelper);
+    return TimerCardState();
   }
 }
 
 class TimerCardState extends State<TimerCard> {
-  TimerHelper timerHelper;
-  String? overwriteTitle;
-  IconData icon = Icons.local_pizza_rounded;
 
-  TimerCardState(this.timerHelper) {
-    timerHelper.onCount = () {
+  TimerCardState() {
+    widget.pizzaInfo.timerHelper.onCount = () {
       setState(() {});
     };
   }
@@ -38,17 +36,16 @@ class TimerCardState extends State<TimerCard> {
           showDialog(
             context: context,
             builder: (BuildContext context) => PizzaSettingsPopup(
-              title: "Change info card",
-              cancelText: "Cancel",
-              titleInputHint: "(optional) change item name",
-              okText: "Ok",
-              description: "Change appearance of this item",
+              title: 'Change info card',
+              cancelText: 'Cancel',
+              titleInputHint: '(optional) change item name',
+              okText: 'Ok',
+              description: 'Change the appearance of this item',
               onSubmit: (newName, newIcon) {
-                  setState(() {
-                    if (newName != "")
-                      overwriteTitle = newName;
-                    icon = newIcon;
-                  });
+                setState(() {
+                  if (newName != '') widget.pizzaInfo.title = newName;
+                  widget.pizzaInfo.icon = newIcon;
+                });
               },
             ),
           );
@@ -60,7 +57,7 @@ class TimerCardState extends State<TimerCard> {
           child: Row(
             children: [
               Icon(
-                icon,
+                widget.pizzaInfo.icon,
                 size: 50.0,
                 color: Constants.accentColor,
               ),
@@ -71,11 +68,11 @@ class TimerCardState extends State<TimerCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    overwriteTitle ?? widget.title,
+                    widget.pizzaInfo.title,
                     style: Constants.textStyle,
                   ),
                   Text(
-                    widget.timerHelper.getPrettyTime(),
+                    widget.pizzaInfo.timerHelper.getPrettyTime(),
                     style: Constants.textStyle,
                   )
                 ],
