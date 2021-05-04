@@ -95,13 +95,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             left: MediaQuery.of(context).size.width * 0.30,
                             right: 25),
                         child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Temperature",
                                 style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 17,
                                     color: Constants.textNormal,
                                     fontWeight: FontWeight.w600),
                                 textAlign: TextAlign.start,
@@ -123,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                       return Text(
                                         ovenInfo.temperature.toString(),
                                         style: TextStyle(
-                                            fontSize: 25,
+                                            fontSize: 20,
                                             color: Constants.textNormal,
                                             fontWeight: FontWeight.w600),
                                         textAlign: TextAlign.start,
@@ -134,6 +134,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                 ),
                               ),
+                              SizedBox(
+                                height: 15,
+                              )
                             ])),
                   ),
                   Padding(
@@ -148,9 +151,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ),
                   Align(
-                    alignment: Alignment.bottomRight,
-                    child: TextButton(
-                      onPressed: () {
+                    alignment: Alignment.topRight,
+                    child: InkWell(
+                      onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -158,13 +161,25 @@ class _MyHomePageState extends State<MyHomePage> {
                                   TemperatureScreen(_provider)),
                         );
                       },
-                      child: Text(
-                        "More",
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Constants.textLight,
-                            fontWeight: FontWeight.w600),
-                        textAlign: TextAlign.start,
+                      child: Container(
+                        padding: EdgeInsets.only(top:10, right: 10),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                "More",
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    color: Constants.textLight,
+                                    fontWeight: FontWeight.w600),
+                                textAlign: TextAlign.start,
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Constants.textLight,
+                                size: 15,
+                              ),
+                            ]),
                       ),
                     ),
                   ),
@@ -184,40 +199,65 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               flex: 4,
-              child: ListView.separated(
-                itemCount: _timerCards.length,
-                padding: EdgeInsets.only(top: 1, left: 10, right: 10),
-                separatorBuilder: (context, index) => SizedBox(),
-                itemBuilder: (context, index) {
-                  return Dismissible(
-                    direction: DismissDirection.endToStart,
-                    key: UniqueKey(),
-                    onDismissed: (DismissDirection direction) {
-                      setState(() {
-                        _timerCards[index].timerHelper.stop();
-                        _timerCards.removeAt(index);
-                      });
-                    },
-                    background: Container(
-                      color: Colors.transparent,
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Image.asset(
-                            'graphics/cutter.png',
-                            width: 30,
-                            fit: BoxFit.contain,
+              child: _timerCards.length > 0
+                  ? ListView.separated(
+                      itemCount: _timerCards.length,
+                      padding: EdgeInsets.only(top: 1, left: 10, right: 10),
+                      separatorBuilder: (context, index) => SizedBox(),
+                      itemBuilder: (context, index) {
+                        return Dismissible(
+                          direction: DismissDirection.endToStart,
+                          key: UniqueKey(),
+                          onDismissed: (DismissDirection direction) {
+                            setState(() {
+                              _timerCards[index].timerHelper.stop();
+                              _timerCards.removeAt(index);
+                            });
+                          },
+                          background: Container(
+                            color: Colors.transparent,
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 20),
+                                child: Image.asset(
+                                  'graphics/cutter.png',
+                                  width: 30,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    child: ListTile(
-                      title: _timerCards[index],
-                    ),
-                  );
-                },
-              ),
+                          child: ListTile(
+                            title: _timerCards[index],
+                          ),
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                          Transform.rotate(
+                            angle: 120,
+                            child: Image.asset(
+                              'graphics/dough.png',
+                              width: 150,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Text(
+                            "Add a pizza to start the timer...",
+                            style: TextStyle(
+                                fontSize: 15,
+                                color: Constants.textLight.withOpacity(0.5),
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.start,
+                          ),
+                        ])),
             ),
             Expanded(
               flex: 1,

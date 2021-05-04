@@ -30,7 +30,7 @@ class HelpIconState extends State<HelpIcon> {
           padding: EdgeInsets.all(7.5),
           child: Icon(
             Icons.help_outline_rounded,
-            color: Constants.textNormal,
+            color: Constants.textLight,
             size: 30,
           ),
         ),
