@@ -49,13 +49,10 @@ class _HelpScreenState extends State<HelpScreen> {
             children: [
               Positioned(
                 top: 0.3,
-                child: Hero(
-                  tag: "oven",
-                  child: Image.asset(
-                    'graphics/hat.png',
-                    width: 115,
-                    fit: BoxFit.contain,
-                  ),
+                child: Image.asset(
+                  'graphics/hat.png',
+                  width: 115,
+                  fit: BoxFit.contain,
                 ),
               ),
               CustomPaint(
