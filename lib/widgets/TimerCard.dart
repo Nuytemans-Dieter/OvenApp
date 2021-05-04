@@ -23,11 +23,11 @@ class TimerCard extends StatefulWidget {
 }
 
 class TimerCardState extends State<TimerCard> {
-
   @override
   void initState() {
     super.initState();
-    widget.logger.fine("Initialising TimerCard named ${widget.pizzaInfo.title}");
+    widget.logger
+        .fine("Initialising TimerCard named ${widget.pizzaInfo.title}");
     widget.timerHelper.onCount = () {
       setState(() {});
     };
@@ -36,6 +36,11 @@ class TimerCardState extends State<TimerCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 1,
+      color: Constants.backgroundColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
       child: InkWell(
         onTap: () {
           showDialog(
@@ -57,16 +62,18 @@ class TimerCardState extends State<TimerCard> {
           );
         },
         onLongPress: () {},
-        splashColor: Constants.accentColor,
+        splashColor: Constants.temperatureCard,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(4.0),
           child: Row(
             children: [
-              Icon(
-                widget.pizzaInfo.icon,
-                size: 50.0,
-                color: Constants.accentColor,
-              ),
+              Padding(
+                  padding: EdgeInsets.all(7.5),
+                  child: Image.asset(
+                  'graphics/pizza.png',
+                  width: 40,
+                  fit: BoxFit.contain,
+                ),),
               SizedBox(
                 width: 30.0,
               ),
@@ -75,7 +82,10 @@ class TimerCardState extends State<TimerCard> {
                 children: [
                   Text(
                     widget.pizzaInfo.title,
-                    style: Constants.textStyle,
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Constants.textNormal,
+                        fontWeight: FontWeight.w500),
                   ),
                   Text(
                     widget.timerHelper.getPrettyTime(),

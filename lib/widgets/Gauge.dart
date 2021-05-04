@@ -16,13 +16,13 @@ class Gauge extends StatefulWidget {
 
   Gauge(
       {Key? key,
-      this.width = 300,
+      this.width = 100,
       this.min = 0,
       this.max = 900,
       this.defaultValue = 20,
-      this.leftColor = Colors.blue,
-      this.rightColor = Colors.red,
-      this.backgroundColor = Colors.white})
+      this.leftColor = Colors.grey,
+      this.rightColor = Colors.grey,
+      this.backgroundColor = Colors.transparent})
       : super(key: key);
 
   @override
@@ -46,7 +46,7 @@ class GaugeState extends State<Gauge> {
         rightColor: widget.rightColor,
         backgroundColor: widget.backgroundColor,
         diameter: widget.width,
-        border: widget.width * 0.15,
+        border: widget.width * 0.05,
       ),
     );
   }
