@@ -4,7 +4,17 @@ import 'package:oven_app/model/data/CelciusHistory.dart';
 
 class CelciusGraph extends StatefulWidget {
   final CelciusHistory history;
-  final List<FlSpot> data = widget.history.toFlSpotList(),
+
+  final List<FlSpot> allSpots = [
+    FlSpot(0, 1),
+    FlSpot(1, 2),
+    FlSpot(2, 1.5),
+    FlSpot(3, 3),
+    FlSpot(4, 3.5),
+    FlSpot(5, 5),
+    FlSpot(6, 8),
+  ];
+
   CelciusGraph(this.history);
 
   @override
@@ -22,7 +32,7 @@ class CelciusGraphState extends State<CelciusGraph> {
     final lineBarsData = [
       LineChartBarData(
           showingIndicators: showIndexes,
-          spots: 
+          spots: widget.allSpots,
           isCurved: true,
           barWidth: 4,
           shadow: const Shadow(
@@ -53,7 +63,7 @@ class CelciusGraphState extends State<CelciusGraph> {
         LineChartData(
           lineBarsData: lineBarsData
         ),
-        swapAnimationDuration: Duration(milliseconds: 150),
+        swapAnimationDuration: Duration(milliseconds: 150), // Optional
         swapAnimationCurve: Curves.linear,
       ),
     );
